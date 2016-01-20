@@ -5,7 +5,7 @@ bus = smbus.SMBus(1)
 address = 0x04
 
 def writeNumber(value):
-    bus.write_byte(address, value)
+    bus.write_byte(address, ord(value))
     return -1
 
 def readNumber():
@@ -13,7 +13,7 @@ def readNumber():
     return number
     
 while True:
-    var = input("Enter 1 - 9: ")
+    var = raw_input("Enter 1 - 9: ")
     if not var:
         continue
 
@@ -21,6 +21,6 @@ while True:
     print "RPI: Hi Arduino, I sent you ", var
     time.sleep(1)
 
-    number = readNumber()
-    print "Arduino: Hey RPI, I received a digit ", number
-    print
+#    number = readNumber()
+#    print "Arduino: Hey RPI, I received a digit ", number
+#    print
