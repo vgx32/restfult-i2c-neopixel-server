@@ -1,37 +1,42 @@
-# import smbus
 import time
 import serial
-# bus = smbus.SMBus(1)
 
 def connect(device):
     try:
-        arduino = serial.Serial(device, 9600)
-        return arduino
+        return serial.Serial(device, baudrate=9600, timeout=0)
     except:
         print("failed to connect to", device)
 
-# address = 0x04
 
-# def writeNumber(value):
-#     bus.write_byte(address, ord(value))
-#     return -1
-
-# def readNumber():
-#     number = bus.read_byte(address)
-#     return number
 device = "/dev/ttyACM0"
 arduino = connect(device)
 
+modes = {
+    "cycle": "\x63",
+    "both": "\x62",
+    "allOn": "\x61"
+}
 
-while True:
-    # var = raw_input("Enter 1 - 9: ")
-    # if not var:
-    #     continue
+testData = ("\x20\x00\x00" +
+            "\x00\x20\x00" +
+            "\x00\x00\x20" +
+            "\x20\x20\x00")
 
-    arduino.write("XZ")
-    # print "RPI: Hi Arduino, I sent you ", var
-    time.sleep(1)
+def packagePixelData(displayMode, pixelValues):
+    if displayMode in modes:
+        return (modes[displayMode] + pixelValues + "\n")
+    else:
+        return ""
 
-#    number = readNumber()
-#    print "Arduino: Hey RPI, I received a digit ", number
-#    print
+def main():
+    while True:
+        text = raw_input("Enter text to send to Arduino ")
+        if not text:
+            continue
+
+        arduino.write(text)
+        print("Sent %s to arduino " % text)
+        time.sleep(1)
+
+        result = serial.read()
+
