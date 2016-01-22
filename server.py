@@ -1,24 +1,35 @@
-import smbus
+# import smbus
 import time
-bus = smbus.SMBus(1)
+import serial
+# bus = smbus.SMBus(1)
 
-address = 0x04
+def connect(device):
+    try:
+        arduino = serial.Serial(device, 9600)
+        return arduino
+    except:
+        print("failed to connect to", device)
 
-def writeNumber(value):
-    bus.write_byte(address, ord(value))
-    return -1
+# address = 0x04
 
-def readNumber():
-    number = bus.read_byte(address)
-    return number
-    
+# def writeNumber(value):
+#     bus.write_byte(address, ord(value))
+#     return -1
+
+# def readNumber():
+#     number = bus.read_byte(address)
+#     return number
+device = "/dev/ttyACM0"
+arduino = connect(device)
+
+
 while True:
-    var = raw_input("Enter 1 - 9: ")
-    if not var:
-        continue
+    # var = raw_input("Enter 1 - 9: ")
+    # if not var:
+    #     continue
 
-    writeNumber(var)
-    print "RPI: Hi Arduino, I sent you ", var
+    arduino.write("XZ")
+    # print "RPI: Hi Arduino, I sent you ", var
     time.sleep(1)
 
 #    number = readNumber()
