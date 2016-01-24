@@ -45,7 +45,15 @@ returns: a packet of data that can be sent to arduino to
     a hex value of corresponding data value
 '''
 def dictToPixelPacket(pixelData):
-  pass
+  if "mode" in pixelData and "data" in pixelData:
+    modeChar = modeToModeChar(pixelData["mode"])
+    data = pixelData["data"]
+    if isinstance(data, list) and modeChar:
+      stringedData = ''.join(map(chr, data))
+      return modeChar + stringedData + "\n"
+  return None
+
+
 
 
 

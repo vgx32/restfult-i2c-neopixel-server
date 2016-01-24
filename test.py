@@ -6,11 +6,20 @@ class NeoPixelServerTests(unittest.TestCase):
 
 
     def test_pixel_display_conversion(self):
-        pass
-        # inputData = {
-        #     "mode": ""
-        # }
-        # self.assertEqual(1,2)
+        inputData = {
+            "mode": "cycle",
+            "data": [
+                0x20, 0x10, 0x53,
+                0x01, 0x02, 0x03,
+                0x04, 0x05, 0x06,
+                0x07, 0x08, 0x07
+            ]
+        }
+
+        expectedResult = "\x63\x20\x10\x53\x01\x02\x03\x04\x05\x06\x07\x08\x07\n"
+        self.assertEqual(
+            arduino_interface.dictToPixelPacket(inputData),
+            expectedResult)
 
     def test_mode_conversion(self):
         modes = [
