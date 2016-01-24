@@ -32,14 +32,35 @@ def readData(con):
   return data
 
 
+
+'''
+expected format:
+{
+  mode: <string>,
+  data: [values list]
+}
+returns: a packet of data that can be sent to arduino to
+  change the display mode/colors; has following format:
+    "m0xV0..0xVn\n", where m is the mode char and 0xVi is 
+    a hex value of corresponding data value
+'''
+def dictToPixelPacket(pixelData):
+  pass
+
+
+
 device = "/dev/ttyACM0"
 arduino = connect(device)
-
-modes = {
-    "cycle": "\x63",
-    "both": "\x62",
-    "allOn": "\x61"
-}
+def modeToModeChar(mode):
+  modes = {
+      "cycle": "\x63",
+      "both": "\x62",
+      "all-on": "\x61"
+  }
+  if mode in modes:
+    return modes[mode]
+  else:
+    return None
 
 testData = ("\x20\x00\x00" +
             "\x00\x20\x00" +
@@ -49,8 +70,9 @@ testData = ("\x20\x00\x00" +
 
 
 def packagePixelData(displayMode, pixelValues):
-    if displayMode in modes:
-        return (modes[displayMode] + pixelValues + "\n")
+    modeChar = modeToModeChar(displayMode)
+    if modeChar:
+        return (modeChar + pixelValues + "\n")
     else:
         return ""
 
