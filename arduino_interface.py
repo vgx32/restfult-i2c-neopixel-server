@@ -44,9 +44,9 @@ returns: a packet of data that can be sent to arduino to
     "m0xV0..0xVn\n", where m is the mode char and 0xVi is 
     a hex value of corresponding data value
 '''
-def dictToPixelPacket(pixelData):
+def pack_pixel_data(pixelData):
   if "mode" in pixelData and "data" in pixelData:
-    modeChar = modeToModeChar(pixelData["mode"])
+    modeChar = mode_to_header(pixelData["mode"])
     data = pixelData["data"]
     if isinstance(data, list) and modeChar:
       stringedData = ''.join(map(chr, data))
@@ -59,7 +59,7 @@ def dictToPixelPacket(pixelData):
 
 device = "/dev/ttyACM0"
 arduino = connect(device)
-def modeToModeChar(mode):
+def mode_to_header(mode):
   modes = {
       "cycle": "\x63",
       "both": "\x62",
@@ -78,7 +78,7 @@ testData = ("\x20\x00\x00" +
 
 
 def packagePixelData(displayMode, pixelValues):
-    modeChar = modeToModeChar(displayMode)
+    modeChar = mode_to_header(displayMode)
     if modeChar:
         return (modeChar + pixelValues + "\n")
     else:

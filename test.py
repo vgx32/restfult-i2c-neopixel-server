@@ -18,7 +18,7 @@ class NeoPixelServerTests(unittest.TestCase):
 
         expectedResult = "\x63\x20\x10\x53\x01\x02\x03\x04\x05\x06\x07\x08\x07\n"
         self.assertEqual(
-            arduino_interface.dictToPixelPacket(inputData),
+            arduino_interface.pack_pixel_data(inputData),
             expectedResult)
 
     def test_mode_conversion(self):
@@ -29,7 +29,7 @@ class NeoPixelServerTests(unittest.TestCase):
         ]
         for inVal, expectedResult in modes:
             self.assertEqual(
-                arduino_interface.modeToModeChar(inVal),
+                arduino_interface.mode_to_header(inVal),
                 expectedResult)
         
 
