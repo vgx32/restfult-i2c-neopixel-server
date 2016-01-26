@@ -1,9 +1,12 @@
 import unittest
 import arduino_interface
+import server
+import json
 
 class NeoPixelServerTests(unittest.TestCase):
 
-
+    def setUp(self):
+        self.app = server.app.test_client()
 
     def test_pixel_display_conversion(self):
         inputData = {
@@ -32,9 +35,24 @@ class NeoPixelServerTests(unittest.TestCase):
                 arduino_interface.mode_to_header(inVal),
                 expectedResult)
         
+    def test_api_get_pixels(self):
+        rv = self.app.get("/pixels/")
+        self.assertEqual(rv.status_code, 200)
 
-    def test_api_post_pixel_data(self):
-        pass
+    def test_api_put_pixel_data(self):
+        inputData = {
+            "mode": "cycle",
+            "data": [
+                0x20, 0x10, 0x53,
+                0x01, 0x02, 0x15,
+                0x04, 0x15, 0x06,
+                0x07, 0x08, 0x07
+            ]
+        }
+        rv = self.app.put(path="/pixels/",
+            headers=[("Content-Type", "application/json")],
+            data = json.dumps(inputData))
+        self.assertEqual(rv.status_code, 200)
 
     def test_api_html_endpoint(self):
         pass
