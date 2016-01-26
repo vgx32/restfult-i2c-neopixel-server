@@ -18,7 +18,7 @@ class NeoPixelControl(Resource):
     def put(self):
         args = self.parser.parse_args()
         print("received a put of %s" % args)
-        #TODO: convert to binary buffer and send to arduino
+        print("TODO: convert to binary buffer and send to arduino")
         return 201
 
 

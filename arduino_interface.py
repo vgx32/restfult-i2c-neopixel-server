@@ -62,6 +62,11 @@ def pack_pixel_data(pixelData):
       return modeChar + stringedData + "\n"
   return None
 
+# undo the conversion from a pack_pixel_data call
+def unpack_pixel_data(packedData):
+  #TODO: tomorrow
+  pass
+
 # assume input is a dict object with mode and all pixel values set
 def set_pixel_values(pixelData):
   packed = pack_pixel_data(pixelData)
@@ -69,6 +74,13 @@ def set_pixel_values(pixelData):
     arduino.write(packed)
   else:
     print("Error: data wasn't formatted properly")
+
+# read the current pixel values from the arduino and return them
+# as a dict
+def get_pixel_values():
+  # TODO: requires arduino implementation
+  pass
+
 
 device = "/dev/ttyACM0"
 arduino = connect(device)
