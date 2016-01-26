@@ -32,6 +32,15 @@ def readData(con):
   return data
 
 
+testJSON = {
+  "mode": "cycle",
+  "data": [
+      0x20, 0x10, 0x53,
+      0x01, 0x02, 0x15,
+      0x04, 0x15, 0x06,
+      0x07, 0x08, 0x07
+  ]
+}
 
 '''
 expected format:
@@ -54,9 +63,6 @@ def pack_pixel_data(pixelData):
   return None
 
 
-
-
-
 device = "/dev/ttyACM0"
 arduino = connect(device)
 def mode_to_header(mode):
@@ -75,14 +81,6 @@ testData = ("\x20\x00\x00" +
             "\x00\x00\x20" +
             "\x20\x20\x00")
 
-
-
-def packagePixelData(displayMode, pixelValues):
-    modeChar = mode_to_header(displayMode)
-    if modeChar:
-        return (modeChar + pixelValues + "\n")
-    else:
-        return ""
 
 def main():
     while True:
