@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_restful import Resource, Api, reqparse
+import arduino_interface
 import pdb
 
 app = Flask(__name__)
@@ -18,7 +19,8 @@ class NeoPixelControl(Resource):
     def put(self):
         args = self.parser.parse_args()
         print("received a put of %s" % args)
-        print("TODO: convert to binary buffer and send to arduino")
+        arduino_interface.set_pixel_values(args)
+        # print("TODO: convert to binary buffer and send to arduino")
         return 201
 
 

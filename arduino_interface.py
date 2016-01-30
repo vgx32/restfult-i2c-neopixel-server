@@ -12,7 +12,7 @@ def connect(device):
 
 # assume data is a byte array
 def writeData(con, data):
-  print "tx:" + data.tostring()
+  print("tx:" + data.tostring())
   con.write(data)
 
 def runDebugLog(con):
@@ -58,8 +58,8 @@ def pack_pixel_data(pixelData):
     modeChar = mode_to_header(pixelData["mode"])
     data = pixelData["data"]
     if isinstance(data, list) and modeChar:
-      stringedData = ''.join(map(chr, data))
-      return modeChar + stringedData + "\n"
+      stringedData = modeChar + ''.join(map(chr, data)) + "\n"
+      return  stringedData.encode('utf-8') 
   return None
 
 # undo the conversion from a pack_pixel_data call

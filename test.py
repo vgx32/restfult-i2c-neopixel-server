@@ -18,7 +18,7 @@ class NeoPixelServerTests(unittest.TestCase):
                 0x07, 0x08, 0x07
             ]
         }
-        expectedResult = "\x63\x20\x10\x53\x01\x02\x03\x04\x05\x06\x07\x08\x07\n"
+        expectedResult = "\x63\x20\x10\x53\x01\x02\x03\x04\x05\x06\x07\x08\x07\n".encode('utf-8')
 
         self.assertEqual(
             arduino_interface.pack_pixel_data(inputData),
